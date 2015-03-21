@@ -121,7 +121,7 @@ JNIEXPORT void JNICALL Java_magick_DrawInfo_setPrimitive
         }
         str[len] = '\0';
         info->primitive = str;
-        printf("String: %s\n", str);
+        // printf("String: %s\n", str);
         if (info->encoding != NULL) {
            // RelinquishMagickMemory((void **) &info->encoding);
         }
@@ -232,7 +232,7 @@ JNIEXPORT void JNICALL Java_magick_DrawInfo_setText
         }
         str[len] = '\0';
         info->text = str;
-        printf("String: %s\n", str);
+        // printf("String: %s\n", str);
         if (info->encoding != NULL) {
           //  RelinquishMagickMemory((void **) &info->encoding);
         }
