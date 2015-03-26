@@ -82,7 +82,7 @@ public class QuantizeInfo extends Magick {
      *
      * @param value new value of dither
      */
-    public native void setDither(int value)
+    public native void setDither(boolean value)
 	throws MagickException;
 
 
@@ -91,8 +91,26 @@ public class QuantizeInfo extends Magick {
      *
      * @return current value of dither field
      */
-    public native int getDither()
+    public native boolean getDither()
 	throws MagickException;
+
+
+    /**
+     * Set the value of ditherMethod field in the QuantizeInfo structure.
+     *
+     * @param value new value of ditherMethod
+     */
+    public native void setDitherMethod(int value)
+    throws MagickException;
+
+
+    /**
+     * Return the value of ditherMethod field in the QuantizInfo structure.
+     *
+     * @return current value of ditherMethod field
+     */
+    public native boolean getDitherMethod()
+    throws MagickException;
 
 
     /**

@@ -649,6 +649,179 @@ int getPixelPacket(JNIEnv *env,
 
 
 
+/*
+ * Construct a new magick.PixelPacket object from RGBA values
+ *
+ * Input:
+ *   env           Java VM environment
+ *   red           RGBA red value
+ *   green         RGBA green value
+ *   blue          RGBA blue value
+ *
+ * Output:
+ *   jobject       newly constructed Java magick.PixelPacket object
+ *
+ * Return:
+ *   null       if failed
+ *   non-null   if successful
+ */
+jobject newPixelPacket(JNIEnv *env,
+  int red, int green, int blue, int alpha)
+{
+    jclass pixelPacketClass;
+    jmethodID consMethodID;
+    jobject pixelPacket;
+
+    pixelPacketClass = (*env)->FindClass(env, "magick/PixelPacket");
+    if (pixelPacketClass == 0) {
+    throwMagickException(env, "Unable to locate class magick.PixelPacket");
+    return NULL;
+    }
+    consMethodID = (*env)->GetMethodID(env, pixelPacketClass,
+                       "<init>", "(IIII)V");
+    if (consMethodID == 0) {
+    throwMagickException(env, "Unable to construct magick.PixelPacket");
+    return NULL;
+    }
+    pixelPacket = (*env)->NewObject(env, pixelPacketClass, consMethodID,
+                  red, green, blue, alpha);
+    if (pixelPacket == NULL) {
+    throwMagickException(env, "Unable to construct magick.PixelPacket");
+    return NULL;
+    }
+    return pixelPacket;
+}
+
+
+
+
+/*
+ * Construct a new magick.ColorPacket object from a magick.PixelPacket, count, and index.
+ *
+ * Input:
+ *   env           Java VM environment
+ *   jPixelPacket  reference to Java magick.PixelPacket object
+ *   index         index value
+ *   count         count value
+ *
+ * Output:
+ *   jobject       newly constructed Java magick.ColorPacket object
+ *
+ * Return:
+ *   null       if failed
+ *   non-null   if successful
+ */
+jobject newColorPacket(JNIEnv *env,
+  jobject jPixelPacket, IndexPacket index, MagickSizeType count)
+{
+    jclass colorPacketClass;
+    jmethodID consMethodID;
+    jobject colorPacket;
+
+    colorPacketClass = (*env)->FindClass(env, "magick/ColorPacket");
+    if (colorPacketClass == 0) {
+    throwMagickException(env, "Unable to locate class magick.ColorPacket");
+    return NULL;
+    }
+    consMethodID = (*env)->GetMethodID(env, colorPacketClass,
+                       "<init>", "(Lmagick/PixelPacket;II)V");
+    if (consMethodID == 0) {
+    throwMagickException(env, "Unable to construct magick.ColorPacket");
+    return NULL;
+    }
+    colorPacket = (*env)->NewObject(env, colorPacketClass, consMethodID,
+                  jPixelPacket, index, count);
+    if (colorPacket == NULL) {
+    throwMagickException(env, "Unable to construct magick.ColorPacket");
+    return NULL;
+    }
+    return colorPacket;
+}
+
+
+
+/*
+ * Construct a new java.util.LinkedList object using default constructor.
+ *
+ * Input:
+ *   env           Java VM environment
+ *
+ * Output:
+ *   jobject       newly constructed Java java.util.LinkedList object
+ *
+ * Return:
+ *   null       if failed
+ *   non-null   if successful
+ */
+jobject newLinkedList(JNIEnv *env)
+{
+    jclass linkedListClass;
+    jmethodID consMethodID;
+    jobject linkedList;
+
+    linkedListClass = (*env)->FindClass(env, "java/util/LinkedList");
+    if (linkedListClass == 0) {
+    throwMagickException(env, "Unable to locate class java.util.LinkedList");
+    return NULL;
+    }
+    consMethodID = (*env)->GetMethodID(env, linkedListClass,
+                       "<init>", "()V");
+    if (consMethodID == 0) {
+    throwMagickException(env, "Unable to construct java.util.LinkedList");
+    return NULL;
+    }
+    linkedList = (*env)->NewObject(env, linkedListClass, consMethodID);
+    if (linkedList == NULL) {
+    throwMagickException(env, "Unable to construct java.util.LinkedList");
+    return NULL;
+    }
+    return linkedList;
+}
+
+
+
+
+/*
+ * Append a Java object to a Java LinkedList object using the
+ * list object's add() method.
+ *
+ * Input:
+ *   env           Java VM environment
+ *   jLinkedList   Reference to the list object
+ *   jObject       Reference to the object being appended to the list    
+ *
+ * Output:
+ *   jboolean      Indication whether successful or not
+ *
+ * Return:
+ *   JNI_FALSE     if failed
+ *   JNI_TRUE      if successful
+ */
+jboolean appendLinkedList(JNIEnv *env,
+    jobject jList, jobject jObject)
+{
+    jclass linkedListClass;
+    jmethodID appendMethodID;
+
+    linkedListClass = (*env)->FindClass(env, "java/util/LinkedList");
+    if (linkedListClass == 0) {
+    throwMagickException(env, "Unable to locate class java.util.LinkedList");
+    return NULL;
+    }
+    appendMethodID = (*env)->GetMethodID(env, linkedListClass,
+                       "add", "(Ljava/lang/Object;)Z");
+    if (appendMethodID == 0) {
+    throwMagickException(env, "Unable to invoke boolean java.util.LinkedList.add(Object)");
+    return NULL;
+    }
+
+    jboolean ret =
+    (*env)->CallBooleanMethod(env, linkedListClass, jList, appendMethodID, jObject);
+
+    return ret;
+}
+
+
 
 
 /*

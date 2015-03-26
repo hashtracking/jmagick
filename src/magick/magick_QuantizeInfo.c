@@ -104,9 +104,9 @@ getIntMethod(Java_magick_QuantizeInfo_getTreeDepth,
 /*
  * Class:     magick_QuantizeInfo
  * Method:    setDither
- * Signature: (I)V
+ * Signature: (Z)V
  */
-setIntMethod(Java_magick_QuantizeInfo_setDither,
+setBoolMethod(Java_magick_QuantizeInfo_setDither,
 	     dither,
 	     "quantizeInfoHandle",
 	     QuantizeInfo)
@@ -115,10 +115,32 @@ setIntMethod(Java_magick_QuantizeInfo_setDither,
 /*
  * Class:     magick_QuantizeInfo
  * Method:    getDither
+ * Signature: ()Z
+ */
+getBoolMethod(Java_magick_QuantizeInfo_getDither,
+	     dither,
+	     "quantizeInfoHandle",
+	     QuantizeInfo)
+
+
+/*
+ * Class:     magick_QuantizeInfo
+ * Method:    getDitherMethod
  * Signature: ()I
  */
-getIntMethod(Java_magick_QuantizeInfo_getDither,
-	     dither,
+getIntMethod(Java_magick_QuantizeInfo_getDitherMethod,
+	     dither_method,
+	     "quantizeInfoHandle",
+	     QuantizeInfo)
+
+
+/*
+ * Class:     magick_QuantizeInfo
+ * Method:    setDitherMethod
+ * Signature: (I)V
+ */
+setIntMethod(Java_magick_QuantizeInfo_setDitherMethod,
+	     dither_method,
 	     "quantizeInfoHandle",
 	     QuantizeInfo)
 

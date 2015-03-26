@@ -3,7 +3,7 @@ package magick;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
-
+import java.util.List;
 
 /**
  * Encapsulation of the ImageMagick Image object.
@@ -565,6 +565,26 @@ public class MagickImage extends Magick {
 	throws MagickException;
 
     /**
+     * Remap the image's pixels using a hald cube. The Hald image is a "flattened" version
+     * of a cube that maps each area of a color space to a replacement color.
+     *
+     * @param haldImage The hald cube image to use for mapping.
+     *
+     * @return A boolean value indicating success or failure
+     * @exception MagcikException Exception indicating problems.
+     **/
+    public native boolean haldClutImage(MagickImage haldImage)
+    throws MagickException;
+
+    /**
+     * Retrieves a historgram of the image, which is an array of each of the unique
+     * colors in the image, as well as a count of the number of pixels for each color.
+     * Colors are represented with the PixelPacket type.
+     **/
+    public native ColorPacket[] histogram()
+    throws MagickException;
+
+    /**
      * Implodes the image's pixels about the center.
      *
      * @param amount Amount of implosion if positive, explosion if negative.
@@ -703,14 +723,34 @@ public class MagickImage extends Magick {
 	throws MagickException;
 
     /**
-     * Changes the color of an opaque pixel to the pen color.
+     * Changes the color of all pixels matching the target color to the pen color.
+     * If the invert false is true, then changes the color of all pixels that are
+     * any color <i>other</i> than the target color to the pen color.
+     *
      * @param target the color to search for in the image
      * @param penColor the color to replace it with
+     * @param invert false value changes all pixels that are the target color, true value
+     *      changes all pixels that are not the target color.
      * @return a boolean value to indicate success
      * @exception MagickException on error
      */
-    public native boolean opaqueImage(PixelPacket target, PixelPacket penColor)
+    public native boolean opaqueImage(PixelPacket target, PixelPacket penColor, boolean invert)
 	throws MagickException;
+
+    /**
+     * Changes the opacity of all pixels matching the target color to the pen color.
+     * If the invert false is true, then changes the opacity of all pixels that are
+     * any color <i>other</i> than the target color.
+     *
+     * @param target the color to search for in the image
+     * @param opacity the opacity (alpha) value to assign to all pixels of the target color
+     * @param invert false value changes all pixels that are the target color, true value
+     *      changes all pixels that are not the target color.
+     * @return a boolean value to indicate success
+     * @exception MagickException on error
+     */
+    public native boolean transparentImage(PixelPacket target, int opacity, boolean invert)
+    throws MagickException;
 
     /**
      * This operation attempts to reduce the 'noise' in the image. This
@@ -804,6 +844,22 @@ public class MagickImage extends Magick {
      * @author Pavel Cibulka
      */
     public native MagickImage resizeImage(int cols, int rows, double blur)
+    throws MagickException;
+
+    /**
+     * Remap image using the colors defined in the remap image. This is the
+     * "-remap" function of ImageMagick's "convert" utility, which is also
+     * the RemapImage function of the MagickCore API.
+     *
+     * @param quantizeInfo parameters describing features of the remapping, such
+     *    especially dithering.
+     * @param MagickImage remap The remapping image. All colors in this
+     *    image will get mapped to the closest color in the remap image.
+     *
+     * @return boolean value indicating success or failure of teh remapping
+     * @exception MagickException on error
+     **/
+    public native boolean remapImage(QuantizeInfo quantizeInfo, MagickImage remap)
     throws MagickException;
 
     /**
@@ -943,16 +999,6 @@ public class MagickImage extends Magick {
      * @exception MagickException on error
      */
     public native boolean transformRgbImage(int colorspace)
-      throws MagickException;
-
-    /**
-     * Creates a matte image associated with the image.
-     * @param color The color to search for in the image
-     * @param opacity The opacity of the transparent image
-     * @return a boolean value indicating success
-     * @exception MagickException on error
-     */
-    public native boolean transparentImage(PixelPacket color, int opacity)
       throws MagickException;
 
     /**

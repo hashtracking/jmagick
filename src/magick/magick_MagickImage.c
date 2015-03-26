@@ -1446,6 +1446,34 @@ JNIEXPORT jobject JNICALL Java_magick_MagickImage_gaussianBlurImage
 
 /*
  * Class:     magick_MagickImage
+ * Method:    haldClutImage
+ * Signature: (Lmagick/MagicImage;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_magick_MagickImage_haldClutImage
+    (JNIEnv *env, jobject self, jobject haldClut)
+{
+    Image *haldClutImage;
+
+    Image *image =
+    (Image*) getHandle(env, self, "magickImageHandle", NULL);
+    if (image == NULL) {
+    throwMagickException(env, "Cannot obtain image handle");
+    return JNI_FALSE;
+    }
+
+    haldClutImage = (Image*) getHandle(env, haldClut, "magickImageHandle", NULL);
+    if (haldClutImage == NULL) {
+    throwMagickException(env, "Cannot obtain hald cube image handle");
+    return JNI_FALSE;
+    }
+
+    return HaldClutImage(image, haldClutImage);
+}
+
+
+
+/*
+ * Class:     magick_MagickImage
  * Method:    implodeImage
  * Signature: (D)Lmagick/MagickImage;
  */
@@ -1509,6 +1537,59 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_gammaImage
 
 
 
+/*
+ * Class:     magick_MagickImage
+ * Method:    histogram
+ * Signature: ()[Lmagick/ColorPacket;
+ */
+JNIEXPORT jobjectArray JNICALL Java_magick_MagickImage_histogram
+    (JNIEnv *env, jobject self)
+{
+    size_t number_colors;
+    ColorPacket *colorPacketArr;
+    ExceptionInfo exception;
+    jclass colorPacketClass;
+
+    Image *image =
+    (Image*) getHandle(env, self, "magickImageHandle", NULL);
+    if (image == NULL) {
+    throwMagickException(env, "Cannot obtain image handle");
+    return NULL;
+    }
+
+    //...get the image histogram...
+    GetExceptionInfo(&exception);
+    colorPacketArr = GetImageHistogram(image, &number_colors, &exception);
+    if (colorPacketArr == NULL) {
+        throwMagickApiException(env, "Unable to collect histogram data", &exception);
+        DestroyExceptionInfo(&exception);
+        return NULL;
+    }
+
+    colorPacketClass = (*env)->FindClass(env, "magick/ColorPacket");
+    if (colorPacketClass == 0) {
+    throwMagickException(env, "Unable to locate class magick.ColorPacket");
+    return NULL;
+    }
+    jobjectArray retArray = (*env)->NewObjectArray(env, number_colors, colorPacketClass, NULL);
+
+    //...for each ColorPacket instance. create a Java equivalent magick.ColorPacket instance...
+    for(int ii=0; ii<number_colors; ii++) {
+        ColorPacket cp = *(colorPacketArr+ii);
+
+        jobject jPixelPacket =
+        newPixelPacket(env, cp.pixel.red, cp.pixel.green, cp.pixel.blue, cp.pixel.opacity);
+
+        jobject jColorPacket =
+        newColorPacket(env, jPixelPacket, cp.index, cp.count);
+
+        (*env)->SetObjectArrayElement(env, retArray, ii, jColorPacket);
+    }
+
+    RelinquishMagickMemory(colorPacketArr);
+
+    return retArray;
+}
 
 /*
  * Class:     magick_MagickImage
@@ -1876,6 +1957,44 @@ JNIEXPORT jobject JNICALL Java_magick_MagickImage_reduceNoiseImage
 
 
 
+/*
+ * Class:     magick_MagickImage
+ * Method:    remapImage
+ * Signature  (Lmagick/QuantizeInfo;Lmagick/MagickImage;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_magick_MagickImage_remapImage
+    (JNIEnv *env, jobject self, jobject quantizeJObj, jobject remap)
+{
+    Image *image;
+    Image *remapImage;
+    QuantizeInfo *quantizeInfo;
+
+    image =
+    (Image*) getHandle(env, self, "magickImageHandle", NULL);
+    if (image == NULL) {
+    throwMagickException(env, "Cannot obtain image handle");
+    return JNI_FALSE;
+    }
+
+    quantizeInfo =
+    (QuantizeInfo*) getHandle(env, quantizeJObj, "quantizeInfohandle", NULL);
+    if(quantizeInfo == NULL) {
+    throwMagickException(env, "Cannot obtain quantize info handle");
+    return JNI_FALSE;
+    }
+
+    remapImage =
+    (Image*) getHandle(env, remap, "magickImageHandle", NULL);
+    if (remapImage == NULL) {
+    throwMagickException(env, "Cannot obtain remap image handle");
+    return JNI_FALSE;
+    }
+
+    return RemapImage(quantizeInfo, image, remapImage);
+}
+
+
+
 
 /*
  * Class:     magick_MagickImage
@@ -1904,7 +2023,7 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_normalizeImage
  * Signature: (Lmagick/PixelPacket;Lmagick/PixelPacket;)Z
  */
 JNIEXPORT jboolean JNICALL Java_magick_MagickImage_opaqueImage
-    (JNIEnv *env, jobject self, jobject target, jobject penColor)
+    (JNIEnv *env, jobject self, jobject target, jobject penColor, jboolean invert)
 {
     PixelPacket ppTarget, ppPenColor;
 
@@ -1921,7 +2040,39 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_opaqueImage
 	return JNI_FALSE;
     }
 
-    return OpaqueImage(image, ppTarget, ppPenColor);
+    printf("target: (%i, %i, %i, %i); pen: (%i, %i, %i, %i)",
+        ppTarget.red, ppTarget.green, ppTarget.blue, ppTarget.opacity,
+        ppPenColor.red, ppPenColor.green, ppPenColor.blue, ppPenColor.opacity);
+
+    return OpaquePaintImage(image, &ppTarget, &ppPenColor, invert);
+}
+
+
+
+
+/*
+ * Class:     magick_MagickImage
+ * Method:    transparentImage
+ * Signature: (Lmagick/PixelPacket;Lmagick/PixelPacket;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_magick_MagickImage_transparentImage
+    (JNIEnv *env, jobject self, jobject target, jint opacity, jboolean invert)
+{
+    PixelPacket ppTarget;
+
+    Image *image =
+    (Image*) getHandle(env, self, "magickImageHandle", NULL);
+    if (image == NULL) {
+    throwMagickException(env, "Cannot obtain image handle");
+    return JNI_FALSE;
+    }
+
+    if (!getPixelPacket(env, target, &ppTarget)) {
+    throwMagickException(env, "Unable to obtain PixelPacket value");
+    return JNI_FALSE;
+    }
+
+    return TransparentPaintImage(image, &ppTarget, opacity, invert);
 }
 
 
@@ -2506,28 +2657,6 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_transformRgbImage
     }
 
     return TransformRGBImage(image, colorspace);
-}
-
-
-
-/*
- * Class:     magick_MagickImage
- * Method:    transparentImage
- * Signature: (Lmagick/PixelPacket;I)Z
- */
-JNIEXPORT jboolean JNICALL Java_magick_MagickImage_transparentImage
-    (JNIEnv *env, jobject self, jobject color, jint opacity)
-{
-    PixelPacket pixelPacket;
-    Image *image =
-	(Image*) getHandle(env, self, "magickImageHandle", NULL);
-    if (image == NULL) {
-	throwMagickException(env, "Cannot obtain image handle");
-	return JNI_FALSE;
-    }
-
-    getPixelPacket(env, color, &pixelPacket);
-    return TransparentImage(image, pixelPacket, (unsigned int) opacity);
 }
 
 

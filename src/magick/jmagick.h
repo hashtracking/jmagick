@@ -170,6 +170,77 @@ int getPixelPacket(JNIEnv *env,
 		   PixelPacket *iPixelPacket);
 
 /*
+ * Construct a new magick.PixelPacket object from RGBA values
+ *
+ * Input:
+ *   env           Java VM environment
+ *   red           RGBA red value
+ *   green         RGBA green value
+ *   blue          RGBA blue value
+ *
+ * Output:
+ *   jobject       newly constructed Java magick.PixelPacket object
+ *
+ * Return:
+ *   null       if failed
+ *   non-null   if successful
+ */
+jobject newPixelPacket(JNIEnv *env,
+  int red, int green, int blue, int alpha);
+
+/*
+ * Construct a new magick.ColorPacket object from a magick.PixelPacket, count, and index.
+ *
+ * Input:
+ *   env           Java VM environment
+ *   jPixelPacket  reference to Java magick.PixelPacket object
+ *   index         index value
+ *   count         count value
+ *
+ * Output:
+ *   jobject       newly constructed Java magick.ColorPacket object
+ *
+ * Return:
+ *   null       if failed
+ *   non-null   if successful
+ */
+jobject newColorPacket(JNIEnv *env,
+  jobject jPixelPacket, IndexPacket index, MagickSizeType count);
+
+/*
+ * Construct a new java.util.LinkedList object using default constructor.
+ *
+ * Input:
+ *   env           Java VM environment
+ *
+ * Output:
+ *   jobject       newly constructed Java java.util.LinkedList object
+ *
+ * Return:
+ *   null       if failed
+ *   non-null   if successful
+ */
+jobject newLinkedList(JNIEnv *env);
+
+/*
+ * Append a Java object to a Java LinkedList object using the
+ * list object's add() method.
+ *
+ * Input:
+ *   env           Java VM environment
+ *   jLinkedList   Reference to the list object
+ *   jObject       Reference to the object being appended to the list    
+ *
+ * Output:
+ *   jboolean      Indication whether successful or not
+ *
+ * Return:
+ *   JNI_FALSE     if failed
+ *   JNI_TRUE      if successful
+ */
+jboolean appendLinkedList(JNIEnv *env, jobject jList, jobject jObject);
+
+/*
  * Construct a new Java magick.MagickImage object and set the
  * handle.
  *
