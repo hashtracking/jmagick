@@ -486,6 +486,28 @@ setIntMethod(Java_magick_MagickImage_setDepth,
 
 /*
  * Class:     magick_MagickImage
+ * Method:    getInterpolate
+ * Signature: ()I
+ */
+getIntMethod(Java_magick_MagickImage_getInterpolate,
+    interpolate,
+    "magickImageHandle",
+    Image)
+
+
+/*
+ * Class:     magick_MagickImage
+ * Method:    setInterpolate
+ * Signature: (I)V
+ */
+setIntMethod(Java_magick_MagickImage_setInterpolate,
+    interpolate,
+    "magickImageHandle",
+    Image)
+
+
+/*
+ * Class:     magick_MagickImage
  * Method:    blurImage
  * Signature: (DD)Lmagick/MagickImage;
  */
@@ -1549,6 +1571,7 @@ JNIEXPORT jobjectArray JNICALL Java_magick_MagickImage_histogram
     ColorPacket *colorPacketArr;
     ExceptionInfo exception;
     jclass colorPacketClass;
+    int ii;
 
     Image *image =
     (Image*) getHandle(env, self, "magickImageHandle", NULL);
@@ -1574,7 +1597,7 @@ JNIEXPORT jobjectArray JNICALL Java_magick_MagickImage_histogram
     jobjectArray retArray = (*env)->NewObjectArray(env, number_colors, colorPacketClass, NULL);
 
     //...for each ColorPacket instance. create a Java equivalent magick.ColorPacket instance...
-    for(int ii=0; ii<number_colors; ii++) {
+    for(ii=0; ii<number_colors; ii++) {
         ColorPacket cp = *(colorPacketArr+ii);
 
         jobject jPixelPacket =
@@ -1763,7 +1786,7 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_colorFloodfillImage
   (JNIEnv *env, jobject self, jobject drawInfo, jobject target,
    jint x, jint y, jint paintMethod)
 {
-    PixelPacket pixPack;
+    MagickPixelPacket pixPack;
     Image *image =
         (Image*) getHandle(env, self, "magickImageHandle", NULL);
     DrawInfo *dInfo;
@@ -1783,7 +1806,11 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_colorFloodfillImage
 	return -1;
     }
 
-    return ColorFloodfillImage(image, dInfo, pixPack, x, y, paintMethod);
+    // ColorFloodfillImage is deprecated and there's no replacement listed in
+    // MagckCore docs. So, for now, we'll just say you can't do this...
+    return JNI_FALSE;
+
+    // return ColorFloodfillImage(image, dInfo, pixPack, x, y, paintMethod);
 }
 
 
@@ -1977,7 +2004,7 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_remapImage
     }
 
     quantizeInfo =
-    (QuantizeInfo*) getHandle(env, quantizeJObj, "quantizeInfohandle", NULL);
+    (QuantizeInfo*) getHandle(env, quantizeJObj, "quantizeInfoHandle", NULL);
     if(quantizeInfo == NULL) {
     throwMagickException(env, "Cannot obtain quantize info handle");
     return JNI_FALSE;
@@ -1985,7 +2012,7 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_remapImage
 
     remapImage =
     (Image*) getHandle(env, remap, "magickImageHandle", NULL);
-    if (remapImage == NULL) {
+    if (image == NULL) {
     throwMagickException(env, "Cannot obtain remap image handle");
     return JNI_FALSE;
     }
@@ -2025,7 +2052,7 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_normalizeImage
 JNIEXPORT jboolean JNICALL Java_magick_MagickImage_opaqueImage
     (JNIEnv *env, jobject self, jobject target, jobject penColor, jboolean invert)
 {
-    PixelPacket ppTarget, ppPenColor;
+    MagickPixelPacket ppTarget, ppPenColor;
 
     Image *image =
 	(Image*) getHandle(env, self, "magickImageHandle", NULL);
@@ -2058,7 +2085,7 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_opaqueImage
 JNIEXPORT jboolean JNICALL Java_magick_MagickImage_transparentImage
     (JNIEnv *env, jobject self, jobject target, jint opacity, jboolean invert)
 {
-    PixelPacket ppTarget;
+    MagickPixelPacket ppTarget;
 
     Image *image =
     (Image*) getHandle(env, self, "magickImageHandle", NULL);

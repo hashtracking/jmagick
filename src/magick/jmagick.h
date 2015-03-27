@@ -167,7 +167,7 @@ int getRectangle(JNIEnv *env, jobject jRect, RectangleInfo *iRect);
  */
 int getPixelPacket(JNIEnv *env,
 		   jobject jPixelPacket,
-		   PixelPacket *iPixelPacket);
+		   MagickPixelPacket *iPixelPacket);
 
 /*
  * Construct a new magick.PixelPacket object from RGBA values

@@ -149,4 +149,7 @@ public class QuantizeInfo extends Magick {
     public native int getMeasureError()
 	throws MagickException;
 
+    public String toString() {
+      return "QuantizeInfo[handle=" + quantizeInfoHandle + "]";
+    }
 }

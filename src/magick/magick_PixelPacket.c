@@ -17,7 +17,7 @@
 JNIEXPORT jobject JNICALL Java_magick_PixelPacket_queryColorDatabase
     (JNIEnv *env, jclass class, jstring target)
 {
-    PixelPacket iPixelPacket;
+    MagickPixelPacket iPixelPacket;
     const char *cstr;
     unsigned int result;
     jmethodID consMethodID;

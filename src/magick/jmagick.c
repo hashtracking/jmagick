@@ -623,7 +623,7 @@ int getRectangle(JNIEnv *env, jobject jRect, RectangleInfo *iRect)
  */
 int getPixelPacket(JNIEnv *env,
 		   jobject jPixelPacket,
-		   PixelPacket *iPixelPacket)
+		   MagickPixelPacket *iPixelPacket)
 {
   jint red, green, blue, opacity;
   int successful =

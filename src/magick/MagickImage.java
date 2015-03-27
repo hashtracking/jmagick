@@ -225,6 +225,26 @@ public class MagickImage extends Magick {
 
 
     /**
+     * Return the identified of the interpolate method setting for the image
+     *
+     * @return the interpolate method identifier of the image.
+     * @exception MagickException on error
+     */
+    public native int getInterpolate()
+        throws MagickException;
+
+    /**
+     * Set the interpolate method identifier of the image.
+     *
+     * @param interpolate method identifier of the image
+     * @exception MagickException on error
+     *
+     */
+    public native void setInterpolate(int interpolate)
+      throws MagickException;
+
+
+    /**
      * Blurs an image. We convolve the image with a Gaussian operator of
      * the given radius and standard deviation (sigma). For reasonable
      * results, the radius should be larger than sigma. Use a radius of 0
