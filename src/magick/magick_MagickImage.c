@@ -2067,10 +2067,6 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_opaqueImage
 	return JNI_FALSE;
     }
 
-    printf("target: (%i, %i, %i, %i); pen: (%i, %i, %i, %i)",
-        ppTarget.red, ppTarget.green, ppTarget.blue, ppTarget.opacity,
-        ppPenColor.red, ppPenColor.green, ppPenColor.blue, ppPenColor.opacity);
-
     return OpaquePaintImage(image, &ppTarget, &ppPenColor, invert);
 }
 
