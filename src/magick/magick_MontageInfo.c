@@ -299,7 +299,7 @@ getBoolMethod(Java_magick_MontageInfo_getShadow,
  * Method:    setFill
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_MontageInfo_setFill,
+setNormalPixelPacketMethod(Java_magick_MontageInfo_setFill,
                      fill,
                      "montageInfoHandle",
                      MontageInfo)
@@ -309,7 +309,7 @@ setPixelPacketMethod(Java_magick_MontageInfo_setFill,
  * Method:    getFill
  * Signature: ()Z
  */
-getPixelPacketMethod(Java_magick_MontageInfo_getFill,
+makePixelPacketFromRGBAMembersMethod(Java_magick_MontageInfo_getFill,
                      fill,
                      "montageInfoHandle",
                      MontageInfo)
@@ -320,7 +320,7 @@ getPixelPacketMethod(Java_magick_MontageInfo_getFill,
  * Method:    setStroke
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_MontageInfo_setStroke,
+setNormalPixelPacketMethod(Java_magick_MontageInfo_setStroke,
                      stroke,
                      "montageInfoHandle",
                      MontageInfo)
@@ -330,7 +330,7 @@ setPixelPacketMethod(Java_magick_MontageInfo_setStroke,
  * Method:    getStroke
  * Signature: ()Z
  */
-getPixelPacketMethod(Java_magick_MontageInfo_getStroke,
+makePixelPacketFromRGBAMembersMethod(Java_magick_MontageInfo_getStroke,
                      stroke,
                      "montageInfoHandle",
                      MontageInfo)
@@ -342,7 +342,7 @@ getPixelPacketMethod(Java_magick_MontageInfo_getStroke,
  * Method:    setBackgroundColor
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_MontageInfo_setBackgroundColor,
+setNormalPixelPacketMethod(Java_magick_MontageInfo_setBackgroundColor,
                      background_color,
                      "montageInfoHandle",
                      MontageInfo)
@@ -352,7 +352,7 @@ setPixelPacketMethod(Java_magick_MontageInfo_setBackgroundColor,
  * Method:    getBackgroundColor
  * Signature: ()Z
  */
-getPixelPacketMethod(Java_magick_MontageInfo_getBackgroundColor,
+makePixelPacketFromRGBAMembersMethod(Java_magick_MontageInfo_getBackgroundColor,
                      background_color,
                      "montageInfoHandle",
                      MontageInfo)
@@ -362,7 +362,7 @@ getPixelPacketMethod(Java_magick_MontageInfo_getBackgroundColor,
  * Method:    setBorderColor
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_MontageInfo_setBorderColor,
+setNormalPixelPacketMethod(Java_magick_MontageInfo_setBorderColor,
                      border_color,
                      "montageInfoHandle",
                      MontageInfo)
@@ -372,7 +372,7 @@ setPixelPacketMethod(Java_magick_MontageInfo_setBorderColor,
  * Method:    getBorderColor
  * Signature: ()Z
  */
-getPixelPacketMethod(Java_magick_MontageInfo_getBorderColor,
+makePixelPacketFromRGBAMembersMethod(Java_magick_MontageInfo_getBorderColor,
                      border_color,
                      "montageInfoHandle",
                      MontageInfo)
@@ -383,7 +383,7 @@ getPixelPacketMethod(Java_magick_MontageInfo_getBorderColor,
  * Method:    setMatteColor
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_MontageInfo_setMatteColor,
+setNormalPixelPacketMethod(Java_magick_MontageInfo_setMatteColor,
                      matte_color,
                      "montageInfoHandle",
                      MontageInfo)
@@ -393,7 +393,7 @@ setPixelPacketMethod(Java_magick_MontageInfo_setMatteColor,
  * Method:    getMatteColor
  * Signature: ()Z
  */
-getPixelPacketMethod(Java_magick_MontageInfo_getMatteColor,
+makePixelPacketFromRGBAMembersMethod(Java_magick_MontageInfo_getMatteColor,
                      matte_color,
                      "montageInfoHandle",
                      MontageInfo)

@@ -770,7 +770,7 @@ JNIEXPORT jobject JNICALL Java_magick_MagickImage_colorizeImage
 	return NULL;
     }
 
-    if (!getPixelPacket(env, target, &pixelPacket)) {
+    if (!getNormalPixelPacket(env, target, &pixelPacket)) {
 	throwMagickException(env, "Unable to get PixelPacket values");
 	return NULL;
     }
@@ -1727,7 +1727,7 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_matteFloodfillImage
 	return -1;
     }
 
-    if (!getPixelPacket(env, target, &pixPack)) {
+    if (!getNormalPixelPacket(env, target, &pixPack)) {
 	throwMagickException(env, "Unable get target PixelPacket");
 	return -1;
     }
@@ -1801,7 +1801,7 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_colorFloodfillImage
         return -1;
     }
 
-    if (!getPixelPacket(env, target, &pixPack)) {
+    if (!getMagickPixelPacket(env, target, &pixPack)) {
 	throwMagickException(env, "Unable get target PixelPacket");
 	return -1;
     }
@@ -2061,8 +2061,8 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_opaqueImage
 	return JNI_FALSE;
     }
 
-    if (!getPixelPacket(env, target, &ppTarget) ||
-	!getPixelPacket(env, penColor, &ppPenColor)) {
+    if (!getMagickPixelPacket(env, target, &ppTarget) ||
+	!getMagickPixelPacket(env, penColor, &ppPenColor)) {
 	throwMagickException(env, "Unable to obtain PixelPacket values");
 	return JNI_FALSE;
     }
@@ -2090,7 +2090,7 @@ JNIEXPORT jboolean JNICALL Java_magick_MagickImage_transparentImage
     return JNI_FALSE;
     }
 
-    if (!getPixelPacket(env, target, &ppTarget)) {
+    if (!getMagickPixelPacket(env, target, &ppTarget)) {
     throwMagickException(env, "Unable to obtain PixelPacket value");
     return JNI_FALSE;
     }
@@ -4442,7 +4442,7 @@ JNIEXPORT jobject JNICALL Java_magick_MagickImage_getOnePixel
  * Method:    setBorderColor
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_MagickImage_setBorderColor,
+setNormalPixelPacketMethod(Java_magick_MagickImage_setBorderColor,
                      border_color,
                      "magickImageHandle",
                      Image)
@@ -4452,7 +4452,7 @@ setPixelPacketMethod(Java_magick_MagickImage_setBorderColor,
  * Method:    getBorderColor
  * Signature: ()Lmagick/PixelPacket;
  */
-getPixelPacketMethod(Java_magick_MagickImage_getBorderColor,
+makePixelPacketFromRGBAMembersMethod(Java_magick_MagickImage_getBorderColor,
                      border_color,
                      "magickImageHandle",
                      Image)
@@ -4463,7 +4463,7 @@ getPixelPacketMethod(Java_magick_MagickImage_getBorderColor,
  * Method:    setBackgroundColor
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_MagickImage_setBackgroundColor,
+setNormalPixelPacketMethod(Java_magick_MagickImage_setBackgroundColor,
                      background_color,
                      "magickImageHandle",
                      Image)
@@ -4473,7 +4473,7 @@ setPixelPacketMethod(Java_magick_MagickImage_setBackgroundColor,
  * Method:    getBackgroundColor
  * Signature: ()Lmagick/PixelPacket;
  */
-getPixelPacketMethod(Java_magick_MagickImage_getBackgroundColor,
+makePixelPacketFromRGBAMembersMethod(Java_magick_MagickImage_getBackgroundColor,
                      background_color,
                      "magickImageHandle",
                      Image)

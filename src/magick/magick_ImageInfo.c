@@ -777,7 +777,7 @@ getIntMethod(Java_magick_ImageInfo_getUnits,
  * Method:    setBorderColor
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_ImageInfo_setBorderColor,
+setNormalPixelPacketMethod(Java_magick_ImageInfo_setBorderColor,
                      border_color,
                      "imageInfoHandle",
                      ImageInfo)
@@ -787,7 +787,7 @@ setPixelPacketMethod(Java_magick_ImageInfo_setBorderColor,
  * Method:    getBorderColor
  * Signature: ()Lmagick/PixelPacket;
  */
-getPixelPacketMethod(Java_magick_ImageInfo_getBorderColor,
+makePixelPacketFromRGBAMembersMethod(Java_magick_ImageInfo_getBorderColor,
                      border_color,
                      "imageInfoHandle",
                      ImageInfo)

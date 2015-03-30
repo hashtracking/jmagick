@@ -447,7 +447,7 @@ getDoubleMethod(Java_magick_DrawInfo_getPointsize,
  * Method:    setFill
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_DrawInfo_setFill,
+setNormalPixelPacketMethod(Java_magick_DrawInfo_setFill,
 		     fill,
 		     "drawInfoHandle",
 		     DrawInfo)
@@ -457,7 +457,7 @@ setPixelPacketMethod(Java_magick_DrawInfo_setFill,
  * Method:    getFill
  * Signature: ()Lmagick/PixelPacket;
  */
-getPixelPacketMethod(Java_magick_DrawInfo_getFill,
+makePixelPacketFromRGBAMembersMethod(Java_magick_DrawInfo_getFill,
 		     fill,
 		     "drawInfoHandle",
 		     DrawInfo)
@@ -467,7 +467,7 @@ getPixelPacketMethod(Java_magick_DrawInfo_getFill,
  * Method:    setStroke
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_DrawInfo_setStroke,
+setNormalPixelPacketMethod(Java_magick_DrawInfo_setStroke,
 		     stroke,
 		     "drawInfoHandle",
 		     DrawInfo)
@@ -477,7 +477,7 @@ setPixelPacketMethod(Java_magick_DrawInfo_setStroke,
  * Method:    getStroke
  * Signature: ()Lmagick/PixelPacket;
  */
-getPixelPacketMethod(Java_magick_DrawInfo_getStroke,
+makePixelPacketFromRGBAMembersMethod(Java_magick_DrawInfo_getStroke,
 		     stroke,
 		     "drawInfoHandle",
 		     DrawInfo)
@@ -487,7 +487,7 @@ getPixelPacketMethod(Java_magick_DrawInfo_getStroke,
  * Method:    setUnderColor
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_DrawInfo_setUnderColor,
+setNormalPixelPacketMethod(Java_magick_DrawInfo_setUnderColor,
 		     undercolor,
 		     "drawInfoHandle",
 		     DrawInfo)
@@ -497,7 +497,7 @@ setPixelPacketMethod(Java_magick_DrawInfo_setUnderColor,
  * Method:    getUnderColor
  * Signature: ()Lmagick/PixelPacket;
  */
-getPixelPacketMethod(Java_magick_DrawInfo_getUnderColor,
+makePixelPacketFromRGBAMembersMethod(Java_magick_DrawInfo_getUnderColor,
 		     undercolor,
 		     "drawInfoHandle",
 		     DrawInfo)
@@ -507,7 +507,7 @@ getPixelPacketMethod(Java_magick_DrawInfo_getUnderColor,
  * Method:    setBorderColor
  * Signature: (Lmagick/PixelPacket;)V
  */
-setPixelPacketMethod(Java_magick_DrawInfo_setBorderColor,
+setNormalPixelPacketMethod(Java_magick_DrawInfo_setBorderColor,
 		     border_color,
 		     "drawInfoHandle",
 		     DrawInfo)
@@ -517,7 +517,7 @@ setPixelPacketMethod(Java_magick_DrawInfo_setBorderColor,
  * Method:    getBorderColor
  * Signature: ()Lmagick/PixelPacket;
  */
-getPixelPacketMethod(Java_magick_DrawInfo_getBorderColor,
+makePixelPacketFromRGBAMembersMethod(Java_magick_DrawInfo_getBorderColor,
 		     border_color,
 		     "drawInfoHandle",
 		     DrawInfo)

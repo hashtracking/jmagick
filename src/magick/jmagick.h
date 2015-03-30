@@ -152,7 +152,7 @@ int getRectangle(JNIEnv *env, jobject jRect, RectangleInfo *iRect);
 
 /*
  * From a magick.PixelPacket object, construct a ImageMagick
- * PixelPacket, as passed in from the parameter.
+ * MagickPixelPacket, as passed in from the parameter.
  *
  * Input:
  *   env           Java VM environment
@@ -165,9 +165,28 @@ int getRectangle(JNIEnv *env, jobject jRect, RectangleInfo *iRect);
  *   non-zero   if successful
  *   zero       if failed
  */
-int getPixelPacket(JNIEnv *env,
+int getMagickPixelPacket(JNIEnv *env,
 		   jobject jPixelPacket,
 		   MagickPixelPacket *iPixelPacket);
+
+/*
+ * From a magick.PixelPacket object, construct a ImageMagick
+ * normal PixelPacket, as passed in from the parameter.
+ *
+ * Input:
+ *   env           Java VM environment
+ *   jPixelPacket  an instance of magick.PixelPacket
+ *
+ * Output:
+ *   iPixelPacket  to be initilised by values in jPixelPacket
+ *
+ * Return:
+ *   non-zero   if successful
+ *   zero       if failed
+ */
+int getNormalPixelPacket(JNIEnv *env,
+       jobject jPixelPacket,
+       PixelPacket *iPixelPacket);
 
 /*
  * Construct a new magick.PixelPacket object from RGBA values
@@ -472,9 +491,31 @@ JNIEXPORT jstring JNICALL funcName                                            \
 
 
 /*
- * Convenience macro to set a PixelPacket attribute in the object handle.
+ * Convenience macro to set a normal PixelPacket attribute in the object handle.
  */
-#define setPixelPacketMethod(funcName, fieldName, handleName, handleType)     \
+#define setNormalPixelPacketMethod(funcName, fieldName, handleName, handleType)     \
+JNIEXPORT void JNICALL funcName                                               \
+    (JNIEnv *env, jobject self, jobject jPixelPacket)                         \
+{                                                                             \
+    handleType *info = NULL;                                                  \
+                                                                              \
+    info = (handleType *) getHandle(env, self, handleName, NULL);             \
+    if (info == NULL) {                                                       \
+  throwMagickException(env, "Unable to retrieve handle");               \
+  return;                                                               \
+    }                                                                         \
+                                                                              \
+    if (!getNormalPixelPacket(env, jPixelPacket, &info->fieldName)) {               \
+  throwMagickException(env, "Unable to set PixelPacket");               \
+  return;                                                               \
+    }                                                                         \
+}
+
+
+/*
+ * Convenience macro to set a MagickPixelPacket attribute in the object handle.
+ */
+#define setMagickPixelPacketMethod(funcName, fieldName, handleName, handleType)     \
 JNIEXPORT void JNICALL funcName                                               \
     (JNIEnv *env, jobject self, jobject jPixelPacket)                         \
 {                                                                             \
@@ -486,7 +527,7 @@ JNIEXPORT void JNICALL funcName                                               \
 	return;                                                               \
     }                                                                         \
                                                                               \
-    if (!getPixelPacket(env, jPixelPacket, &info->fieldName)) {               \
+    if (!getMagickPixelPacket(env, jPixelPacket, &info->fieldName)) {               \
 	throwMagickException(env, "Unable to set PixelPacket");               \
 	return;                                                               \
     }                                                                         \
@@ -495,9 +536,10 @@ JNIEXPORT void JNICALL funcName                                               \
 
 
 /*
- * Convenience macro to get a PixelPacket attribute in the object handle.
+ * Convenience macro to get a PixelPacket attribute in the object handle, which
+ * will work for any handleType that has red, green, blue and opacity members
  */
-#define getPixelPacketMethod(funcName, fieldName, handleName, handleType)     \
+#define makePixelPacketFromRGBAMembersMethod(funcName, fieldName, handleName, handleType)     \
 JNIEXPORT jobject JNICALL funcName                                            \
     (JNIEnv *env, jobject self)                                               \
 {                                                                             \

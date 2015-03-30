@@ -608,7 +608,7 @@ int getRectangle(JNIEnv *env, jobject jRect, RectangleInfo *iRect)
 
 /*
  * From a magick.PixelPacket object, construct a ImageMagick
- * PixelPacket, as passed in from the parameter.
+ * MagickPixelPacket, as passed in from the parameter.
  *
  * Input:
  *   env           Java VM environment
@@ -621,7 +621,7 @@ int getRectangle(JNIEnv *env, jobject jRect, RectangleInfo *iRect)
  *   non-zero   if successful
  *   zero       if failed
  */
-int getPixelPacket(JNIEnv *env,
+int getMagickPixelPacket(JNIEnv *env,
 		   jobject jPixelPacket,
 		   MagickPixelPacket *iPixelPacket)
 {
@@ -634,6 +634,49 @@ int getPixelPacket(JNIEnv *env,
         getIntFieldValue(env, jPixelPacket, "blue", NULL,
                          &blue) &&
 	getIntFieldValue(env, jPixelPacket, "opacity", NULL,
+                         &opacity);
+  if (!successful) {
+      return successful;
+  }
+  iPixelPacket->red = (Quantum) red;
+  iPixelPacket->green = (Quantum) green;
+  iPixelPacket->blue = (Quantum) blue;
+  iPixelPacket->opacity = (Quantum) opacity;
+  return successful;
+}
+
+
+
+
+
+/*
+ * From a magick.PixelPacket object, construct a ImageMagick
+ * normal PixelPacket, as passed in from the parameter.
+ *
+ * Input:
+ *   env           Java VM environment
+ *   jPixelPacket  an instance of magick.PixelPacket
+ *
+ * Output:
+ *   iPixelPacket  to be initilised by values in jPixelPacket
+ *
+ * Return:
+ *   non-zero   if successful
+ *   zero       if failed
+ */
+int getNormalPixelPacket(JNIEnv *env,
+           jobject jPixelPacket,
+           PixelPacket *iPixelPacket)
+{
+  jint red, green, blue, opacity;
+  int successful =
+    getIntFieldValue(env, jPixelPacket, "red", NULL,
+                         &red) &&
+    getIntFieldValue(env, jPixelPacket, "green", NULL,
+                         &green) &&
+        getIntFieldValue(env, jPixelPacket, "blue", NULL,
+                         &blue) &&
+    getIntFieldValue(env, jPixelPacket, "opacity", NULL,
                          &opacity);
   if (!successful) {
       return successful;
