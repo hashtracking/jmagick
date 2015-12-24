@@ -10,6 +10,7 @@
 include ../../Make.def
 
 JAVA_SRC_FILES =				\
+			ClassType.java		\
 			Magick.java		\
 			MagickException.java	\
 			MagickApiException.java	\
@@ -17,7 +18,6 @@ JAVA_SRC_FILES =				\
 			ProfileInfo.java	\
 			PixelPacket.java	\
 			ImageInfo.java		\
-			ClassType.java		\
 			ColorspaceType.java	\
 			CompositeOperator.java	\
 			CompressionType.java	\
@@ -40,7 +40,9 @@ JAVA_SRC_FILES =				\
 			ResolutionType.java	\
 			MagickProducer.java	\
 			MagickLoader.java	\
-			MagickInfo.java
+			MagickInfo.java     \
+			DitherMethod.java   \
+			PixelInterpolateMethod.java
 
 # JNI specifications
 JNI_LIB_NAME    =	JMagick
